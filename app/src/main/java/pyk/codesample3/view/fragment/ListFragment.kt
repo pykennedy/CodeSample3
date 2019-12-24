@@ -12,14 +12,22 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pyk.codesample3.R
 import pyk.codesample3.contract.fragment.ListFragmentContract
 import pyk.codesample3.databinding.FragmentListBinding
 import pyk.codesample3.model.SourceBridge
+import pyk.codesample3.presenter.fragment.ListFragmentPresenter
 import pyk.codesample3.view.adapter.MovieListAdapter
 import pyk.codesample3.view.adapter.MovieListener
 
 class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
+    val presenter = ListFragmentPresenter(this)
+    private val uiScope = CoroutineScope(Dispatchers.Main)
+    private var loadingPage = false
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val b = DataBindingUtil.inflate<FragmentListBinding>(inflater, R.layout.fragment_list,
@@ -31,22 +39,29 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
         setHasOptionsMenu(true)
         
         val adapter = MovieListAdapter(MovieListener { movie ->
-            this.findNavController().navigate(R.id.action_listFragment_to_detailsFragment)
+            this.findNavController().navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(movie))
         })
         b.rvList.adapter = adapter
-        val sb = SourceBridge()
         
         b.rvList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if(!recyclerView.canScrollVertically(1)) {
-                    Toast.makeText(activity, "ayyy lmao", Toast.LENGTH_SHORT).show()
-                    // TODO: set a boolean that i'm attempting to pull more pages so i dont spam requests
+                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if(!loadingPage) {
+                        loadingPage = true
+                        uiScope.launch {
+                            // this is necessary for DiffUtil to work since if i was using
+                            // live data then every time a change occurred it would be treated like
+                            // a new list was made, so i must also provide a "new" list
+                            adapter.submitList(presenter.pullNextPage().toMutableList())
+                            loadingPage = false
+                        }
+                    }
                 }
             }
         })
         
-        adapter.submitList(sb.getMovies())
+        uiScope.launch { adapter.submitList(presenter.pullNextPage()) }
         
         return b.root
     }
@@ -61,7 +76,7 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
     
     }
     
-    override fun updateUI() {
-    
+    override fun notifyEndOfPages() {
+        Toast.makeText(activity, "No More Movies!", Toast.LENGTH_SHORT).show()
     }
 }

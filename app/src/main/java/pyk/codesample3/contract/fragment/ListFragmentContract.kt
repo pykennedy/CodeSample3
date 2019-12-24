@@ -1,12 +1,14 @@
 package pyk.codesample3.contract.fragment
 
+import pyk.codesample3.model.item.Movie
+
 interface ListFragmentContract {
     interface ListFragmentView {
         fun requestNextPage()
-        fun updateUI()
+        fun notifyEndOfPages()
     }
     
     interface ListFragmentPresenter {
-        fun pullNextPage()
+        suspend fun pullNextPage(): MutableList<Movie>
     }
 }

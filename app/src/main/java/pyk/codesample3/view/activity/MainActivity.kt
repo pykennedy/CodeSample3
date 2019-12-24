@@ -1,7 +1,6 @@
 package pyk.codesample3.view.activity
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -28,9 +27,5 @@ class MainActivity: AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val nav = this.findNavController(R.id.fragmentNavigator)
         return return NavigationUI.navigateUp(nav, drawerLayout)
-    }
-    
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return false
     }
 }
