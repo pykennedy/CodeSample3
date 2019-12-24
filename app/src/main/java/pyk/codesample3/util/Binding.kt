@@ -2,7 +2,7 @@ package pyk.codesample3.util
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import pyk.codesample3.model.Movie
+import pyk.codesample3.model.item.Movie
 
 @BindingAdapter("title")
 fun TextView.setTitle(item: Movie) {
