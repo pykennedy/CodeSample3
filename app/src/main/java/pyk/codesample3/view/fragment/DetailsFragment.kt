@@ -14,7 +14,10 @@ class DetailsFragment: Fragment() {
                               savedInstanceState: Bundle?): View? {
         val b = DataBindingUtil.inflate<FragmentDetailsBinding>(inflater, R.layout.fragment_details, container,
                                                              false)
-    
+        val movie = DetailsFragmentArgs.fromBundle(arguments!!).movie
+        
+        b.tvTitle.text = movie.title
+        
         return b.root
     }
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import pyk.codesample3.databinding.ItemMovielistBinding
-import pyk.codesample3.model.Movie
+import pyk.codesample3.model.item.Movie
 
 class MovieListAdapter(val clickListener: MovieListener): ListAdapter<Movie, MovieListAdapter.ViewHolder>(DiffCallback()) {
     
