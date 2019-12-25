@@ -15,8 +15,9 @@ class DetailsFragment: Fragment() {
         val b = DataBindingUtil.inflate<FragmentDetailsBinding>(inflater, R.layout.fragment_details, container,
                                                              false)
         val movie = DetailsFragmentArgs.fromBundle(arguments!!).movie
-        
-        b.tvTitle.text = movie.title
+    
+        b.movie = movie
+        b.executePendingBindings()
         
         return b.root
     }
