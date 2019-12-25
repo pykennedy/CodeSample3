@@ -17,16 +17,6 @@
         android:layout_height="85dp"
         android:onClick="@{() -> clickListener.onClick(movie)}">
 
-        <ImageView
-            android:id="@+id/iv_poster"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="0.67:1"
-            android:contentDescription="@string/poster_description" />
-
         <ProgressBar
             android:id="@+id/pb_poster"
             android:layout_width="50dp"
@@ -35,6 +25,17 @@
             app:layout_constraintEnd_toEndOf="@id/iv_poster"
             app:layout_constraintTop_toTopOf="@id/iv_poster"
             app:layout_constraintBottom_toBottomOf="@id/iv_poster" />
+
+        <ImageView
+            android:id="@+id/iv_poster"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="0.67:1"
+            android:contentDescription="@string/poster_description"
+            app:poster="@{movie}"/>
 
         <TextView
             android:id="@+id/tv_title"

@@ -5,17 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="pyk.codesample3.view.fragment.DetailsFragment">
 
+    <data>
+        <variable
+            name="movie"
+            type="pyk.codesample3.model.item.Movie" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/iv_backdrop"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="1.78:1"
-            android:contentDescription="@string/backdrop_description" />
 
         <ProgressBar
             android:id="@+id/pb_backdrop"
@@ -27,14 +25,13 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_backdrop" />
 
         <ImageView
-            android:id="@+id/iv_poster"
-            android:layout_width="0dp"
+            android:id="@+id/iv_backdrop"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/v_posterXpadding"
-            app:layout_constraintTop_toBottomOf="@id/v_posterYpadding"
-            app:layout_constraintDimensionRatio="0.67:1"
-            app:layout_constraintWidth_percent="0.3"
-            android:contentDescription="@string/poster_description" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintDimensionRatio="1.78:1"
+            android:contentDescription="@string/backdrop_description"
+            app:backdrop="@{movie}"/>
 
         <ProgressBar
             android:id="@+id/pb_poster"
@@ -45,6 +42,17 @@
             app:layout_constraintTop_toTopOf="@id/iv_poster"
             app:layout_constraintBottom_toBottomOf="@id/iv_poster" />
 
+        <ImageView
+            android:id="@+id/iv_poster"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/v_posterXpadding"
+            app:layout_constraintTop_toBottomOf="@id/v_posterYpadding"
+            app:layout_constraintDimensionRatio="0.67:1"
+            app:layout_constraintWidth_percent="0.3"
+            android:contentDescription="@string/poster_description"
+            app:poster="@{movie}"/>
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
@@ -53,7 +61,8 @@
             app:layout_constraintEnd_toStartOf="@id/v_endXpadding"
             app:layout_constraintTop_toBottomOf="@+id/iv_poster"
             android:layout_marginTop="10dp"
-            android:text="@string/default_title" />
+            android:text="@string/default_title"
+            app:title="@{movie}"/>
 
         <TextView
             android:id="@+id/tv_release"
@@ -61,7 +70,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            android:text="@string/default_date" />
+            android:text="@string/default_date"
+            app:release="@{movie}"/>
 
         <TextView
             android:id="@+id/tv_rating"
@@ -69,7 +79,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@id/v_endXpadding"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            android:text="@string/default_rating" />
+            android:text="@string/default_rating"
+            app:rating="@{movie}"/>
 
         <TextView
             android:id="@+id/tv_overview"
@@ -80,7 +91,8 @@
             app:layout_constraintTop_toBottomOf="@id/tv_release"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="10dp"
-            android:text="@string/default_description" />
+            android:text="@string/default_description"
+            app:overview="@{movie}"/>
 
         <!-- These empty spacing fields are my solution to avoiding nested layouts
                 Pro is it should be less resource intensive since no nested layout
