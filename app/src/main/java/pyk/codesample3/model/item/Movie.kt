@@ -13,5 +13,6 @@ import kotlinx.android.parcel.Parcelize
                             @SerializedName("poster_path")
                             val posterPath: String = "",
                             @SerializedName("backdrop_path")
-                            val backdropPath: String = ""
+                            val backdropPath: String = "",
+                            var isChecked: Boolean
 ): Parcelable

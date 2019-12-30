@@ -9,14 +9,26 @@ class ListFragmentPresenter(val contractView: ListFragmentContract.ListFragmentV
     
     private var pageNumber = 1
     override suspend fun pullNextPage(): MutableList<Movie> {
-        val movieList = MovieList()
-        if(pageNumber < 10) {
+        return if(pageNumber < 10) {
             // TODO: when implementing network calls i'll likely have to only increment on success
             // increment page number with each request
-            return movieList.pullPage(pageNumber++)
+            MovieList().pullPage(pageNumber++)
         } else {
-            return movieList.getMovies()
+            contractView.notifyEndOfPages()
+            MovieList().getMovies()
         }
-        
+    }
+    
+    override fun setChecked(index: Int) {
+        val movie = MovieList().getMovie(index)
+        movie.isChecked = !movie.isChecked
+    }
+    
+    override fun getMovies(): List<Movie> {
+        return MovieList().getMovies()
+    }
+    
+    override fun getCheckedMovies(): List<Movie> {
+        return MovieList().getCheckedMovies()
     }
 }
