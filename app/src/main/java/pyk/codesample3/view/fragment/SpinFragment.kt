@@ -16,16 +16,16 @@ import pyk.codesample3.view.adapter.MovieSpinnerAdapter
 class SpinFragment: Fragment(), SpinFragmentContract.SpinFragmentView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val b = DataBindingUtil.inflate<FragmentSpinBinding>(inflater, R.layout.fragment_spin, container,
-                                                             false)
+        val b = DataBindingUtil.inflate<FragmentSpinBinding>(inflater, R.layout.fragment_spin,
+                                                             container, false)
         
         b.cwlMoviespinner.setAdapter(MovieSpinnerAdapter(this, requireContext()))
         b.cwlMoviespinner.setOnMenuSelectedListener { parent, view, pos ->
-            if(b.movie != null) {
+            if (b.movie != null) {
                 b.movie = getMovie(pos)
             }
         }
-    
+        
         // databinding bugs out if i don't initialize a movie before
         // setOnMenuSelectedListener is called (which occurs after onCreateView()'s return)
         b.movie = getMovie(0)

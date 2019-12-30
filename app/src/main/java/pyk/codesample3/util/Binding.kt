@@ -26,13 +26,9 @@ private const val imageUrl = "https://image.tmdb.org/t/p/w780"
 }
 
 @BindingAdapter("poster") fun ImageView.setPoster(item: Movie) {
-    Glide.with(this.context)
-            .load(imageUrl + item.posterPath)
-            .into(this)
+    Glide.with(this.context).load(imageUrl + item.posterPath).into(this)
 }
 
 @BindingAdapter("backdrop") fun ImageView.setBackdrop(item: Movie) {
-    Glide.with(this.context)
-            .load(imageUrl + item.backdropPath)
-            .into(this)
+    Glide.with(this.context).load(imageUrl + item.backdropPath).into(this)
 }

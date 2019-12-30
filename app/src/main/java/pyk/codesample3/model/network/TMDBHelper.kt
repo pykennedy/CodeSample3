@@ -19,8 +19,8 @@ class TMDBHelper {
         var rawJson = ""
         val movies = mutableListOf<Movie>()
         rawJson = getRawJson(TMDB_URL + pageNumber.toString())
-    
-        return if(rawJson != "Error") {
+        
+        return if (rawJson != "Error") {
             movieListFromJson(rawJson)
         } else {
             movies
@@ -41,7 +41,7 @@ class TMDBHelper {
         
         val tmdbJson = gson.fromJson(rawJson, TMDBJson::class.java)
         
-        for(movie: Movie in tmdbJson.results) {
+        for (movie: Movie in tmdbJson.results) {
             movies.add(movie)
         }
         
