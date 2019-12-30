@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import pyk.codesample3.databinding.ItemMovielistBinding
 import pyk.codesample3.model.item.Movie
 
-class MovieListAdapter(val clickListener: MovieListener): ListAdapter<Movie, MovieListAdapter.ViewHolder>(DiffCallback()) {
+class MovieListAdapter(val clickListener: MovieListener, val checkedListener: CheckedListener):
+        ListAdapter<Movie, MovieListAdapter.ViewHolder>(DiffCallback()) {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -16,15 +17,19 @@ class MovieListAdapter(val clickListener: MovieListener): ListAdapter<Movie, Mov
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, clickListener)
+        holder.bind(position, item, clickListener, checkedListener)
     }
     
     class ViewHolder private constructor(val b: ItemMovielistBinding): RecyclerView.ViewHolder(
             b.root) {
         
-        fun bind(item: Movie, clickListener: MovieListener) {
+        fun bind(index: Int, item: Movie, clickListener: MovieListener, checkedListener: CheckedListener) {
             b.movie = item
+            b.index = index
             b.clickListener = clickListener
+            b.checkedListener = checkedListener
+            
+            b.cbSelected.isChecked = item.isChecked
             b.executePendingBindings()
         }
         
@@ -52,4 +57,8 @@ class DiffCallback: DiffUtil.ItemCallback<Movie>() {
 
 class MovieListener(val clickListener: (movie: Movie) -> Unit) {
     fun onClick(movie: Movie) = clickListener(movie)
+}
+
+class CheckedListener(val checkedListener: (index: Int) -> Unit) {
+    fun onChecked(index: Int) = checkedListener(index)
 }

@@ -18,13 +18,14 @@ import kotlinx.coroutines.launch
 import pyk.codesample3.R
 import pyk.codesample3.contract.fragment.ListFragmentContract
 import pyk.codesample3.databinding.FragmentListBinding
-import pyk.codesample3.model.SourceBridge
 import pyk.codesample3.presenter.fragment.ListFragmentPresenter
+import pyk.codesample3.view.adapter.CheckedListener
 import pyk.codesample3.view.adapter.MovieListAdapter
 import pyk.codesample3.view.adapter.MovieListener
 
 class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
     val presenter = ListFragmentPresenter(this)
+    lateinit var adapter: MovieListAdapter
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private var loadingPage = false
     
@@ -33,21 +34,38 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
         val b = DataBindingUtil.inflate<FragmentListBinding>(inflater, R.layout.fragment_list,
                                                              container, false)
         b.fab.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_listFragment_to_spinFragment)
+            val count = presenter.getCheckedMovies().size
+            when {
+                count in 2..6 -> view.findNavController().navigate(
+                        ListFragmentDirections.actionListFragmentToSpinFragment())
+                count == 1  -> Toast.makeText(context, "Too few movies selected!",
+                                                 Toast.LENGTH_SHORT).show()
+                count > 6     -> Toast.makeText(context, "Too many movies selected!",
+                                                 Toast.LENGTH_SHORT).show()
+                else           -> Toast.makeText(context,
+                                                 "Select 2 - 6 movies and let fate decide your night!",
+                                                 Toast.LENGTH_LONG).show()
+            }
         }
         
         setHasOptionsMenu(true)
         
-        val adapter = MovieListAdapter(MovieListener { movie ->
-            this.findNavController().navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(movie))
+        adapter = MovieListAdapter(MovieListener { movie ->
+            this.findNavController()
+                    .navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(movie))
+        }, CheckedListener { index ->
+            presenter.setChecked(index)
+            adapter.submitList(presenter.getMovies().toMutableList())
         })
+        
         b.rvList.adapter = adapter
         
         b.rvList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    if(!loadingPage) {
+                if (!recyclerView.canScrollVertically(
+                                1) && newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if (!loadingPage) {
                         loadingPage = true
                         uiScope.launch {
                             // this is necessary for DiffUtil to work since if i was using
@@ -65,15 +83,11 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
         
         return b.root
     }
-
+    
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item,
                                                      view!!.findNavController()) || super.onOptionsItemSelected(
                 item)
-    }
-    
-    override fun requestNextPage() {
-    
     }
     
     override fun notifyEndOfPages() {
