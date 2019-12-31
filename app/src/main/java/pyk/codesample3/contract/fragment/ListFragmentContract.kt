@@ -5,6 +5,7 @@ import pyk.codesample3.model.item.Movie
 interface ListFragmentContract {
     interface ListFragmentView {
         fun notifyEndOfPages()
+        fun notifyBadPull()
     }
     
     interface ListFragmentPresenter {

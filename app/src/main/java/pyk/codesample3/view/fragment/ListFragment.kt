@@ -38,13 +38,13 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
             when {
                 count in 2..6 -> view.findNavController().navigate(
                         ListFragmentDirections.actionListFragmentToSpinFragment())
-                count == 1  -> Toast.makeText(context, "Too few movies selected!",
-                                                 Toast.LENGTH_SHORT).show()
+                count == 1    -> Toast.makeText(context, "Too few movies selected!",
+                                                Toast.LENGTH_SHORT).show()
                 count > 6     -> Toast.makeText(context, "Too many movies selected!",
-                                                 Toast.LENGTH_SHORT).show()
-                else           -> Toast.makeText(context,
-                                                 "Select 2 - 6 movies and let fate decide your night!",
-                                                 Toast.LENGTH_LONG).show()
+                                                Toast.LENGTH_SHORT).show()
+                else          -> Toast.makeText(context,
+                                                "Select 2 - 6 movies and let fate decide your night!",
+                                                Toast.LENGTH_LONG).show()
             }
         }
         
@@ -92,5 +92,10 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
     
     override fun notifyEndOfPages() {
         Toast.makeText(activity, "No More Movies!", Toast.LENGTH_SHORT).show()
+    }
+    
+    override fun notifyBadPull() {
+        Toast.makeText(activity, "Failed to get Movie data! Check your internet!",
+                       Toast.LENGTH_SHORT).show()
     }
 }

@@ -19,15 +19,15 @@ class TMDBHelper {
         var rawJson = ""
         val movies = mutableListOf<Movie>()
         rawJson = getRawJson(TMDB_URL + pageNumber.toString())
-    
-        return if(rawJson != "Error") {
+        
+        return if (rawJson != "Error") {
             movieListFromJson(rawJson)
         } else {
-            movies
+            mutableListOf()
         }
     }
     
-    suspend fun getRawJson(url: String) = suspendCoroutine<String> { cont ->
+    private suspend fun getRawJson(url: String) = suspendCoroutine<String> { cont ->
         val queue = Volley.newRequestQueue(App.getAppContext())
         val request = StringRequest(Request.Method.GET, url,
                                     Response.Listener<String> { response -> cont.resume(response) },
@@ -35,13 +35,13 @@ class TMDBHelper {
         queue.add(request)
     }
     
-    fun movieListFromJson(rawJson: String): MutableList<Movie> {
+    private fun movieListFromJson(rawJson: String): MutableList<Movie> {
         val movies = mutableListOf<Movie>()
         val gson = Gson()
         
         val tmdbJson = gson.fromJson(rawJson, TMDBJson::class.java)
         
-        for(movie: Movie in tmdbJson.results) {
+        for (movie: Movie in tmdbJson.results) {
             movies.add(movie)
         }
         

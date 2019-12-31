@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import pyk.codesample3.R
 import pyk.codesample3.contract.fragment.SpinFragmentContract
 import pyk.codesample3.databinding.FragmentSpinBinding
@@ -16,16 +17,24 @@ import pyk.codesample3.view.adapter.MovieSpinnerAdapter
 class SpinFragment: Fragment(), SpinFragmentContract.SpinFragmentView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val b = DataBindingUtil.inflate<FragmentSpinBinding>(inflater, R.layout.fragment_spin, container,
-                                                             false)
+        val b = DataBindingUtil.inflate<FragmentSpinBinding>(inflater, R.layout.fragment_spin,
+                                                             container, false)
         
         b.cwlMoviespinner.setAdapter(MovieSpinnerAdapter(this, requireContext()))
         b.cwlMoviespinner.setOnMenuSelectedListener { parent, view, pos ->
-            if(b.movie != null) {
+            if (b.movie != null) {
                 b.movie = getMovie(pos)
             }
         }
-    
+        
+        b.tvOverview.setOnClickListener { view: View ->
+            if (b.movie != null) {
+                this.findNavController().navigate(
+                        SpinFragmentDirections.actionSpinFragmentToDetailsFragment(
+                                getMovie(b.cwlMoviespinner.selectedPosition)))
+            }
+        }
+        
         // databinding bugs out if i don't initialize a movie before
         // setOnMenuSelectedListener is called (which occurs after onCreateView()'s return)
         b.movie = getMovie(0)

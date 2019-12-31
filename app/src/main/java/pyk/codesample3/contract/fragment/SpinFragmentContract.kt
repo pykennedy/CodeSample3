@@ -8,9 +8,4 @@ interface SpinFragmentContract {
         fun getSize(): Int
         fun getMovie(index: Int): Movie
     }
-    interface SpinFragmentPresenter {
-        fun getCheckedMovies(): List<Movie>
-        fun getSize(): Int
-        fun getMovie(index: Int): Movie
-    }
 }

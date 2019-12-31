@@ -12,10 +12,10 @@ import pyk.codesample3.databinding.FragmentDetailsBinding
 class DetailsFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val b = DataBindingUtil.inflate<FragmentDetailsBinding>(inflater, R.layout.fragment_details, container,
-                                                             false)
+        val b = DataBindingUtil.inflate<FragmentDetailsBinding>(inflater, R.layout.fragment_details,
+                                                                container, false)
         val movie = DetailsFragmentArgs.fromBundle(arguments!!).movie
-    
+        
         b.movie = movie
         b.executePendingBindings()
         

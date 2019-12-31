@@ -6,6 +6,68 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorLink">@color/colorHyperlink</item>
+    </style>
+
+    <!-- Text Styling -->
+
+    <style name="textTitle" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/textBlack87</item>
+    </style>
+
+    <style name="textRelease" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/textBlack60</item>
+    </style>
+
+    <style name="textRating" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/textBlack60</item>
+    </style>
+
+    <style name="textBody" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/textBlack87</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="textItemTitle" parent="textTitle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="textItemRelease" parent="textRelease" />
+
+    <style name="textItemRating" parent="textRating" />
+
+    <!-- View Styling -->
+
+    <style name="progressBar" parent="AppTheme">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <style name="imagePoster" parent="AppTheme">
+        <item name="layout_constraintDimensionRatio">0.67:1</item>
+    </style>
+
+    <style name="imageBackdrop" parent="AppTheme">
+        <item name="layout_constraintDimensionRatio">1.78:1</item>
+    </style>
+
+    <style name="floatingActionButton" parent="AppTheme">
+        <item name="android:clickable">true</item>
+        <item name="android:tint">@color/textWhite</item>
+        <item name="maxImageSize">30dp</item>
+    </style>
+
+    <style name="cursorWheel" parent="AppTheme">
+        <item name="wheelCursorColor">@color/colorAccent</item>
+        <item name="wheelCursorHeight">20dp</item>
+        <item name="wheelSelectedAngle">270</item>
+        <item name="wheelBackgroundColor">@color/colorPrimary</item>
+        <item name="layout_constraintDimensionRatio">1:1</item>
+    </style>
+
+    <style name="checkbox" parent="AppTheme">
+        <item name="android:scaleX">1.5</item>
+        <item name="android:scaleY">1.5</item>
     </style>
 
 </resources>

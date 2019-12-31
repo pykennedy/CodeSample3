@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="pyk.codesample3.view.fragment.DetailsFragment">
+    tools:context="pyk.codesample3.view.fragment.SpinFragment">
 
     <data>
 
@@ -16,6 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <github.hellocsl.cursorwheel.CursorWheelLayout
+            android:id="@+id/cwl_moviespinner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/cursorWheel"
+            android:layout_margin="10dp" />
+
         <ProgressBar
             android:id="@+id/pb_backdrop"
             app:layout_constraintStart_toStartOf="@id/iv_backdrop"
@@ -26,9 +36,12 @@
 
         <ImageView
             android:id="@+id/iv_backdrop"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/cwl_moviespinner"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
             style="@style/imageBackdrop"
             android:contentDescription="@string/backdrop_description"
             app:backdrop="@{movie}" />
@@ -45,10 +58,13 @@
             android:id="@+id/iv_poster"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/v_posterXpadding"
-            app:layout_constraintTop_toBottomOf="@id/v_posterYpadding"
+            app:layout_constraintStart_toStartOf="@id/iv_backdrop"
+            app:layout_constraintTop_toTopOf="@id/iv_backdrop"
+            app:layout_constraintBottom_toBottomOf="@id/iv_backdrop"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             style="@style/imagePoster"
-            app:layout_constraintWidth_percent="0.3"
             android:contentDescription="@string/poster_description"
             app:poster="@{movie}" />
 
@@ -56,10 +72,11 @@
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/iv_poster"
-            app:layout_constraintEnd_toStartOf="@id/v_endXpadding"
-            app:layout_constraintTop_toBottomOf="@+id/iv_poster"
-            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/iv_backdrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_backdrop"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             style="@style/textTitle"
             android:text="@string/default_title"
             app:title="@{movie}" />
@@ -68,8 +85,10 @@
             android:id="@+id/tv_release"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
+            android:layout_marginEnd="4dp"
             style="@style/textRelease"
             android:text="@string/default_date"
             app:release="@{movie}" />
@@ -78,8 +97,10 @@
             android:id="@+id/tv_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/v_endXpadding"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             style="@style/textRating"
             android:text="@string/default_rating"
             app:rating="@{movie}" />
@@ -89,56 +110,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="@id/tv_release"
-            app:layout_constraintEnd_toStartOf="@id/v_endXpadding"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_release"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="10dp"
             style="@style/textBody"
+            android:lines="1"
             android:text="@string/default_description"
             app:overview="@{movie}" />
-
-        <!-- These empty spacing fields are my solution to avoiding nested layouts
-                Pro is it should be less resource intensive since no nested layout
-                Con is it's hard to read and maintain
-                I prioritised performance for this, in practice i think maintainability
-                    is more important than minor CPU optimization
-
-             The reason i want dynamic padding/margins is because i want the poster
-                to have a consistent "offset" from the backdrop that will scale equally
-                regardless of screen ratio -->
-
-        <!-- dynamic spacing to ensure poster offset scales with screen dimensions -->
-        <View
-            android:id="@+id/v_posterXpadding"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.04"
-            app:layout_constraintDimensionRatio="1:1.78"
-            android:visibility="invisible" />
-
-        <!-- dynamic spacing to ensure poster offset scales with screen dimensions -->
-        <View
-            android:id="@+id/v_posterYpadding"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.34"
-            app:layout_constraintDimensionRatio="1.78:1"
-            android:visibility="invisible" />
-
-        <!-- dynamic spacing so that Start and End "margins" match -->
-        <View
-            android:id="@+id/v_endXpadding"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.04"
-            app:layout_constraintDimensionRatio="1:1.78"
-            android:visibility="invisible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

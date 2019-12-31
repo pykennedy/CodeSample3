@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import pyk.codesample3.databinding.ItemMovielistBinding
 import pyk.codesample3.model.item.Movie
 
-class MovieListAdapter(val clickListener: MovieListener, val checkedListener: CheckedListener):
-        ListAdapter<Movie, MovieListAdapter.ViewHolder>(DiffCallback()) {
+class MovieListAdapter(private val clickListener: MovieListener,
+                       private val checkedListener: CheckedListener): ListAdapter<Movie, MovieListAdapter.ViewHolder>(
+        DiffCallback()) {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -23,7 +24,8 @@ class MovieListAdapter(val clickListener: MovieListener, val checkedListener: Ch
     class ViewHolder private constructor(val b: ItemMovielistBinding): RecyclerView.ViewHolder(
             b.root) {
         
-        fun bind(index: Int, item: Movie, clickListener: MovieListener, checkedListener: CheckedListener) {
+        fun bind(index: Int, item: Movie, clickListener: MovieListener,
+                 checkedListener: CheckedListener) {
             b.movie = item
             b.index = index
             b.clickListener = clickListener
@@ -45,8 +47,8 @@ class MovieListAdapter(val clickListener: MovieListener, val checkedListener: Ch
 
 class DiffCallback: DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        // because i don't have ID's
-        return ((oldItem.title == newItem.title) && (oldItem.release == newItem.release) && (oldItem.rating == newItem.rating))
+        // because i don't have ID's i compare title and release for uniqueness
+        return ((oldItem.title == newItem.title) && (oldItem.release == newItem.release))
     }
     
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {

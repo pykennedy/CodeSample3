@@ -6,6 +6,7 @@
     tools:context="pyk.codesample3.view.fragment.SpinFragment">
 
     <data>
+
         <variable
             name="movie"
             type="pyk.codesample3.model.item.Movie" />
@@ -19,13 +20,19 @@
             android:id="@+id/cwl_moviespinner"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:wheelCursorColor="#00ff00"
-            app:wheelCursorHeight="20dp"
-            app:wheelSelectedAngle="270"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="1:1"/>
+            style="@style/cursorWheel"
+            android:layout_margin="10dp" />
+
+        <ProgressBar
+            android:id="@+id/pb_poster"
+            app:layout_constraintStart_toStartOf="@id/iv_poster"
+            app:layout_constraintEnd_toEndOf="@id/iv_poster"
+            app:layout_constraintTop_toTopOf="@id/iv_poster"
+            app:layout_constraintBottom_toBottomOf="@id/iv_poster"
+            style="@style/progressBar" />
 
         <ImageView
             android:id="@+id/iv_poster"
@@ -33,10 +40,12 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cwl_moviespinner"
-            app:layout_constraintDimensionRatio="0.67:1"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
+            style="@style/imagePoster"
             app:layout_constraintWidth_percent="0.3"
             android:contentDescription="@string/poster_description"
-            app:poster="@{movie}"/>
+            app:poster="@{movie}" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -45,41 +54,52 @@
             app:layout_constraintStart_toEndOf="@id/iv_poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cwl_moviespinner"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="4dp"
+            style="@style/textTitle"
             android:text="@string/default_title"
-            app:title="@{movie}"/>
+            app:title="@{movie}" />
 
         <TextView
             android:id="@+id/tv_release"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/iv_poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            style="@style/textRelease"
             android:text="@string/default_date"
-            app:release="@{movie}"/>
+            app:release="@{movie}" />
 
         <TextView
             android:id="@+id/tv_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tv_release"
+            app:layout_constraintStart_toEndOf="@id/iv_poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_release"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            style="@style/textRating"
             android:text="@string/default_rating"
-            app:rating="@{movie}"/>
+            app:rating="@{movie}" />
 
         <TextView
             android:id="@+id/tv_overview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:lines="2"
-            app:layout_constraintStart_toStartOf="@id/tv_rating"
+            app:layout_constraintStart_toEndOf="@id/iv_poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_rating"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            style="@style/textBody"
+            android:lines="5"
             android:text="@string/default_description"
-            app:overview="@{movie}"/>
+            app:overview="@{movie}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
