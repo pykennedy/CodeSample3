@@ -93,4 +93,9 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
     override fun notifyEndOfPages() {
         Toast.makeText(activity, "No More Movies!", Toast.LENGTH_SHORT).show()
     }
+    
+    override fun notifyBadPull() {
+        Toast.makeText(activity, "Failed to get Movie data! Check your internet!",
+                       Toast.LENGTH_SHORT).show()
+    }
 }

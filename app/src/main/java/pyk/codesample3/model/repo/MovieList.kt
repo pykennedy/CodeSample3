@@ -26,8 +26,12 @@ class MovieList {
     
     suspend fun pullPage(pageNumber: Int): MutableList<Movie> {
         val sb = SourceBridge()
-        Movies.list.addAll(sb.pullPage(pageNumber))
-        
-        return Movies.list
+        val temp = sb.pullPage(pageNumber)
+        return if (temp.size > 0) {
+            Movies.list.addAll(temp)
+            Movies.list
+        } else {
+            temp
+        }
     }
 }

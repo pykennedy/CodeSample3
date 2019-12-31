@@ -25,6 +25,7 @@
 
     <style name="textBody" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/textBlack87</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="textItemTitle" parent="textTitle">
