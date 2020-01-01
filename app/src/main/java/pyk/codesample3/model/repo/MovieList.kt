@@ -1,6 +1,5 @@
 package pyk.codesample3.model.repo
 
-import android.util.Log
 import pyk.codesample3.model.SourceBridge
 import pyk.codesample3.model.item.Movie
 
@@ -30,8 +29,6 @@ class MovieList {
         val temp = sb.pullPage(pageNumber)
         return if (temp.size > 0) {
             Movies.list.addAll(temp)
-            Log.e("asdf", Movies.list.last().toString())
-            Log.e("asdf", Movies.list.size.toString())
             Movies.list
         } else {
             temp

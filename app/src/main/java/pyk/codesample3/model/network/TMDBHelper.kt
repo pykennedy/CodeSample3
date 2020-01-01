@@ -6,19 +6,18 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import pyk.codesample3.App
+import pyk.codesample3.constants.Constants
 import pyk.codesample3.model.item.Movie
 import pyk.codesample3.model.item.TMDBJson
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class TMDBHelper {
-    private val TMDB_URL =
-            "https://api.themoviedb.org/3/movie/now_playing?api_key=e6dfd67cca79e834c3c68f729e937f64&language=en-US&page="
     
     suspend fun getMovies(pageNumber: Int): MutableList<Movie> {
         var rawJson = ""
         val movies = mutableListOf<Movie>()
-        rawJson = getRawJson(TMDB_URL + pageNumber.toString())
+        rawJson = getRawJson(Constants.TMDB_URL + pageNumber.toString())
         
         return if (rawJson != "Error") {
             movieListFromJson(rawJson)
