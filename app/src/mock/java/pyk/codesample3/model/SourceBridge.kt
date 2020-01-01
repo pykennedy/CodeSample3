@@ -5,10 +5,10 @@ import pyk.codesample3.model.support.StaticValues
 
 class SourceBridge {
     fun pullPage(pageNumber: Int): MutableList<Movie> {
-        if (pageNumber == 1) {
-            return StaticValues.movies
-        } else {
-            return StaticValues.movies2
+        return when (pageNumber) {
+            1    -> StaticValues.movies1
+            2    -> StaticValues.movies2
+            else -> mutableListOf()
         }
     }
 }

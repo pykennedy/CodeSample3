@@ -64,7 +64,7 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(
-                                1) && newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                                1)) {
                     if (!loadingPage) {
                         loadingPage = true
                         uiScope.launch {

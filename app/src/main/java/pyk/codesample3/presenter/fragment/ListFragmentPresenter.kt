@@ -4,21 +4,20 @@ import pyk.codesample3.contract.fragment.ListFragmentContract
 import pyk.codesample3.model.item.Movie
 import pyk.codesample3.model.repo.MovieList
 
-class ListFragmentPresenter(val contractView: ListFragmentContract.ListFragmentView):
-        ListFragmentContract.ListFragmentPresenter {
+class ListFragmentPresenter(private val contractView: ListFragmentContract.ListFragmentView,
+                            private val maxPages: Int = 10): ListFragmentContract.ListFragmentPresenter {
     
     private var pageNumber = 1
     override suspend fun pullNextPage(): MutableList<Movie> {
-        return if (pageNumber < 10) {
-            val movies = MovieList().pullPage(pageNumber++)
-            if(movies.size > 0) {
+        return if (pageNumber <= maxPages) {
+            val movies = MovieList().pullPage(pageNumber)
+            if (movies.size > 0) {
+                pageNumber+=1
                 movies
             } else {
-                pageNumber-- // because error
                 contractView.notifyBadPull()
                 MovieList().getMovies()
             }
-            
         } else {
             contractView.notifyEndOfPages()
             MovieList().getMovies()
