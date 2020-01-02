@@ -1,6 +1,5 @@
 package pyk.codesample3.view.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,11 +11,6 @@ import pyk.codesample3.model.item.Movie
 class MovieListAdapter(private val clickListener: MovieListener,
                        private val checkedListener: CheckedListener): ListAdapter<Movie, MovieListAdapter.ViewHolder>(
         DiffCallback()) {
-    
-    override fun submitList(list: MutableList<Movie>?) {
-        super.submitList(list)
-        Log.e("asdf", "list submitted")
-    }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)

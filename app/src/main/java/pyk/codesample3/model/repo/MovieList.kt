@@ -24,6 +24,12 @@ class MovieList {
         return Movies.list[index]
     }
     
+    fun clearChecks() {
+        for(movie in Movies.list.filter { it.isChecked }) {
+            movie.isChecked = false
+        }
+    }
+    
     suspend fun pullPage(pageNumber: Int): MutableList<Movie> {
         val sb = SourceBridge()
         val temp = sb.pullPage(pageNumber)
