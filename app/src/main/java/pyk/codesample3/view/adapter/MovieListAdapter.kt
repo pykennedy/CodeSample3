@@ -21,8 +21,8 @@ class MovieListAdapter(private val clickListener: MovieListener,
         holder.bind(position, item, clickListener, checkedListener)
     }
     
-    class ViewHolder private constructor(val b: ItemMovielistBinding): RecyclerView.ViewHolder(
-            b.root) {
+    class ViewHolder private constructor(
+            private val b: ItemMovielistBinding): RecyclerView.ViewHolder(b.root) {
         
         fun bind(index: Int, item: Movie, clickListener: MovieListener,
                  checkedListener: CheckedListener) {

@@ -9,13 +9,13 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="pyk.codesample3.view.fragment.AboutFragment"
-        android:label="About This App"
+        android:label="@string/navigation_label_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/detailsFragment"
         android:name="pyk.codesample3.view.fragment.DetailsFragment"
-        android:label="Movie Details"
-        tools:layout="@layout/fragment_details" >
+        android:label="@string/navigation_label_details"
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="movie"
             app:argType="pyk.codesample3.model.item.Movie" />
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="pyk.codesample3.view.fragment.ListFragment"
-        android:label="Movie List"
+        android:label="@string/navigation_label_list"
         tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_spinFragment"
@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/spinFragment"
         android:name="pyk.codesample3.view.fragment.SpinFragment"
-        android:label="Let Fate Decide!"
+        android:label="@string/navigation_label_fatedecide"
         tools:layout="@layout/fragment_spin">
         <action
             android:id="@+id/action_spinFragment_to_detailsFragment"
