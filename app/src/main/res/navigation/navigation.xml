@@ -15,7 +15,7 @@
         android:id="@+id/detailsFragment"
         android:name="pyk.codesample3.view.fragment.DetailsFragment"
         android:label="@string/navigation_label_details"
-        tools:layout="@layout/fragment_details" >
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="movie"
             app:argType="pyk.codesample3.model.item.Movie" />

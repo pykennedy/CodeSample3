@@ -21,13 +21,14 @@ class SpinFragment: Fragment(), SpinFragmentContract.SpinFragmentView {
                                                              container, false)
         
         b.cwlMoviespinner.setAdapter(MovieSpinnerAdapter(this, requireContext()))
-        b.cwlMoviespinner.setOnMenuSelectedListener { parent, view, pos ->
+        // naming these "_" because android studio said it was a good idea so were rolling with it
+        b.cwlMoviespinner.setOnMenuSelectedListener { _, _, pos ->
             if (b.movie != null) {
                 b.movie = getMovie(pos)
             }
         }
         
-        b.tvOverview.setOnClickListener { view: View ->
+        b.tvOverview.setOnClickListener {
             if (b.movie != null) {
                 this.findNavController().navigate(
                         SpinFragmentDirections.actionSpinFragmentToDetailsFragment(

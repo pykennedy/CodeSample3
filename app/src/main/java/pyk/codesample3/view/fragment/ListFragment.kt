@@ -42,8 +42,7 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
                                                 Toast.LENGTH_SHORT).show()
                 count > 6     -> Toast.makeText(context, getString(R.string.too_many_movies),
                                                 Toast.LENGTH_SHORT).show()
-                else          -> Toast.makeText(context,
-                                                getString(R.string.spinner_rules),
+                else          -> Toast.makeText(context, getString(R.string.spinner_rules),
                                                 Toast.LENGTH_LONG).show()
             }
         }
@@ -63,8 +62,7 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
         b.rvList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(
-                                1)) {
+                if (!recyclerView.canScrollVertically(1)) {
                     if (!loadingPage) {
                         loadingPage = true
                         uiScope.launch {
@@ -95,7 +93,6 @@ class ListFragment: Fragment(), ListFragmentContract.ListFragmentView {
     }
     
     override fun notifyBadPull() {
-        Toast.makeText(activity, getString(R.string.no_internet),
-                       Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
     }
 }

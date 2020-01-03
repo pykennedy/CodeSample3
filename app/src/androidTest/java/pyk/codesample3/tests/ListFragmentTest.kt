@@ -16,6 +16,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers.not
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +32,7 @@ import pyk.codesample3.view.adapter.MovieListAdapter
 @RunWith(AndroidJUnit4::class) class ListFragmentTest {
     @get:Rule val activityRule: ActivityTestRule<MainActivity> =
             ActivityTestRule(MainActivity::class.java)
-
+    
     @Before fun launch() {
         MovieList().clearChecks()
     }
@@ -41,9 +42,9 @@ import pyk.codesample3.view.adapter.MovieListAdapter
     }
     
     @Test fun titleIsCorrect() {
-        assert(ToolbarMatcher.expectedTitle(activityRule.activity.supportActionBar,
-                                            activityRule.activity.resources.getString(
-                                                    R.string.navigation_label_list)))
+        assertTrue(ToolbarMatcher.expectedTitle(activityRule.activity.supportActionBar,
+                                                activityRule.activity.resources.getString(
+                                                        R.string.navigation_label_list)))
     }
     
     @Test fun firstPagePopulated() {
@@ -53,12 +54,22 @@ import pyk.codesample3.view.adapter.MovieListAdapter
     }
     
     @Test fun goToDetails() {
-        onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(1, click()))
+        onView(withId(R.id.rv_list)).perform(
+                actionOnItemAtPosition<MovieListAdapter.ViewHolder>(1, click()))
         // scuffed way of testing actionbar title change since the view matchers i was trying
         // weren't working. I left my attempt commented out so yall could see what i wanted to do
         assert(ToolbarMatcher.expectedTitle(activityRule.activity.supportActionBar,
                                             activityRule.activity.resources.getString(
                                                     R.string.navigation_label_details)))
+        
+        onView(withId(R.id.tv_title)).check(matches(withText(StaticValues.movies1[1].title)))
+        onView(withId(R.id.tv_release)).check(matches(withText(StaticValues.movies1[1].release)))
+        onView(withId(R.id.tv_rating)).check(
+                matches(withText(StaticValues.movies1[1].rating + " / 10")))
+        onView(withId(R.id.tv_overview)).check(matches(withText(StaticValues.movies1[1].overview)))
+        
+        pressBack()
+        titleIsCorrect()
     }
     
     @Test fun pullForSecondPage() {
@@ -72,6 +83,11 @@ import pyk.codesample3.view.adapter.MovieListAdapter
         pressBack()
         scrollToBottom()
         swipeUpwards()
+        // extra swipes as this test would frequently fail due to not making it to
+        // the bottom before the last swipe
+        swipeUpwards()
+        swipeUpwards()
+        
         onView(withId(R.id.rv_list)).perform(scrollToPosition<MovieListAdapter.ViewHolder>(20))
         onView(withId(R.id.rv_list)).check(
                 matches(hasDescendant(withText(StaticValues.movies2[3].title))))
@@ -88,8 +104,9 @@ import pyk.codesample3.view.adapter.MovieListAdapter
         pressBack()
         scrollToBottom()
         swipeUpwards()
-        // extra swipe as this test would frequently fail due to not making it to
+        // extra swipes as this test would frequently fail due to not making it to
         // the bottom before the last swipe
+        swipeUpwards()
         swipeUpwards()
         
         onView(withText(R.string.no_more_movies)).inRoot(
@@ -97,6 +114,11 @@ import pyk.codesample3.view.adapter.MovieListAdapter
                 .check(matches(isDisplayed()))
     }
     
+    /*
+    this test works in the emulator but not on my phone. This has been an issue with all
+    of my tests where espresso doesn't recognize the UI is still making changes
+    and just blows through the test without waiting for the toasts to show up.
+     */
     @Test fun goToSpinnerInvalid() {
         // no movies selected
         onView(withId(R.id.fab)).perform(click())
@@ -106,8 +128,8 @@ import pyk.codesample3.view.adapter.MovieListAdapter
         
         // one movie selected
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(1,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.fab)).perform(click())
         onView(withText(R.string.not_enough_movies)).inRoot(
                 withDecorView(not(activityRule.activity.window.decorView)))
@@ -115,23 +137,23 @@ import pyk.codesample3.view.adapter.MovieListAdapter
         
         // 7 movies selected
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(2,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(3,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(4,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(5,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(6,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(7,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.fab)).perform(click())
         onView(withText(R.string.too_many_movies)).inRoot(
                 withDecorView(not(activityRule.activity.window.decorView)))
@@ -140,25 +162,28 @@ import pyk.codesample3.view.adapter.MovieListAdapter
     
     @Test fun goToSpinnerValid() {
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(1,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(2,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.rv_list)).perform(actionOnItemAtPosition<MovieListAdapter.ViewHolder>(3,
-                                                                                        ListItemActions.clickChildViewWithId(
-                                                                                                R.id.cb_selected)))
+                                                                                                 ListItemActions.clickChildViewWithId(
+                                                                                                         R.id.cb_selected)))
         onView(withId(R.id.fab)).perform(click())
-    
+        
         assert(ToolbarMatcher.expectedTitle(activityRule.activity.supportActionBar,
                                             activityRule.activity.resources.getString(
                                                     R.string.navigation_label_fatedecide)))
+        
+        pressBack()
+        titleIsCorrect()
     }
     
     // because i spam these so much
     private fun scrollToBottom() {
-        onView(withId(R.id.rv_list)).perform(scrollToPosition<MovieListAdapter.ViewHolder>(
-                MovieList().getMovies().size-1))
+        onView(withId(R.id.rv_list)).perform(
+                scrollToPosition<MovieListAdapter.ViewHolder>(MovieList().getMovies().size - 1))
     }
     
     // because i spam these so much

@@ -10,6 +10,7 @@ class ListFragmentPresenter(private val contractView: ListFragmentContract.ListF
     
     private var pageNumber = 1
     override suspend fun pullNextPage(): MutableList<Movie> {
+        // mocked Constants class so i can reduce the MAX_PAGES for faster and easier testing
         return if (pageNumber <= Constants.MAX_PAGES) {
             val movies = MovieList().pullPage(pageNumber)
             if (movies.size > 0) {
